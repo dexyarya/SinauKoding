@@ -7,6 +7,6 @@ for (var noAngkot = 1; noAngkot <= banyakAngkot; noAngkot++) {
   } else if (noAngkot > angkotBeroprasi && noAngkot != 8) {
     console.log("Angkot No " + noAngkot + " Tidak beroperasi");
   } else {
-    console.log("angkot No " + noAngkot + " lmbur");
+    console.log("Angkot No " + noAngkot + " lembur");
   }
 }
