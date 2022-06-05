@@ -1,9 +1,6 @@
 <template>
   <div class="container mt-5">
-      <div class="Title-top d-flex justify-content-between mb-5">
-        <p class="h4">Daftar Pengguna</p>
-        <b-button variant="primary">Buat Pengguna</b-button>
-      </div>
+     <FormAdd/>
     <div class="card">
       <b-table :items="items" :fields="fields" responsive >
         <template #cell(actions)="row">
@@ -29,7 +26,13 @@
 </template>
 
 <script>
+
+import FormAdd from "./FormAdd.vue";
 export default {
+
+  components:{
+    FormAdd
+  },
   data() {
     return {
       fields: [
