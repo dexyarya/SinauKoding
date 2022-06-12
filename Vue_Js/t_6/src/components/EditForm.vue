@@ -1,5 +1,4 @@
 <template>
-  
   <div class="container mt-5 " >
     <!-- <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button> -->
 
@@ -7,7 +6,8 @@
         <p class="h4">Daftar Pengguna</p>
         <b-button variant="primary">Buat Pengguna</b-button>
       </div> -->
-  <p class="h4 mb-5">Add User</p>
+  <div class="container mt-5 ">
+  <p class="h4 mb-5">Edit Data</p>
 
   <b-card class="mb-2 p-3"  style="max-width: 80rem;"  >
 
@@ -21,7 +21,7 @@
           <b-form-input
             id="name-input"
             v-model="form.name"
-            placeholder="Enter The Name"
+            placeholder="Name"
             required
           ></b-form-input> 
         </b-form-group>
@@ -36,7 +36,6 @@
             id="email-input"
             v-model="form.email"
             type="email"
-             placeholder="Enter The Email"
             required
           ></b-form-input> 
         </b-form-group>
@@ -65,7 +64,6 @@
         <b-form-select
           v-model="form.status"
           :options="status"
-          
           disabled-field="notEnabled"
           class="form-control"
         ></b-form-select>
@@ -74,21 +72,24 @@
 
       <div class="button d-flex justify-content-between mb-5 mt-5" >
         <router-link :to="{name:'home'}">
-        <b-button variant="danger"> Back</b-button>
+          <b-button variant="danger"> Back</b-button>
         </router-link>
-        <b-button variant="primary" @click="handleSubmit">Save</b-button>
+        <b-button variant="primary" @click="handleUpdate">Update</b-button>
       </div>
   </b-card>
-  
+    </div>
+     
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-
 export default {
      data() {
       return {
+
+        editItem:{},
+
         form:{
           name: '',
           email: '',
@@ -112,50 +113,66 @@ export default {
     
     },
 
+   async created(){
+    const id = this.$route.params.id;
+    const result = await axios.get(`https://gorest.co.in/public/v2/users/${id}`);
+    this.editItem = await(await result).data;
+    console.log(this.editItem);
+    this.form.name = await(await result).data.name;
+    this.form.email = await(await result).data.email;
+    this.form.gender = await(await result).data.gender;
+    this.form.status= await(await result).data.status;
+
+   },
+
     methods:{
 
       
       
-      handleSubmit(e){
+      handleUpdate(e){
         e.preventDefault();
+        const id = this.$route.params.id;
 
         // console.log('submited',this.form)
+        const token = '?access-token=08b816f010a788aa024c36f8552a110c16aad446ec0ecc81cc9d6479c71ce69d'
+        axios.put(` https://gorest.co.in/public/v2/users/${id}${token}`,this.form,{
 
-       
-        axios.post(' https://gorest.co.in/public/v2/users?access-token=08b816f010a788aa024c36f8552a110c16aad446ec0ecc81cc9d6479c71ce69d',this.form,{
-          
         })
               .then((response) => {
-                console.log(response);
-
-                if(response === 200 || 201 ){
-
-                this.$swal({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                icon: 'success',
-                text: 'User has been saved',
+                
+                if(response.status === 200){
+                  this.$router.push('/');
+                  this.$swal({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  icon: 'success',
+                  text: 'User has been updated',
               });
-                  this.$router.push('/');                  
                 }
               })
 
               .catch((error) => {
-                error.response;
-                
-                this.$swal({
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                icon: 'error',
-                text: 'User has been not saved ',
-              });
+                error.status;
 
+                 this.$router.push('/');
+                  this.$swal({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000,
+                  icon: 'error',
+                  text: 'User has been updated',
+              });
+                
               })
       },
+
+      //back button
+       goToHome(){
+      this.$router.push('/');
+    }
     }
 
 }

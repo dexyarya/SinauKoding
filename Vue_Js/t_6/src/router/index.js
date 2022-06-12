@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-// import DaftarPengguna from "../components/DaftarPengguna.vue";
+import FromAdd from "../components/FormAdd.vue";
+import EditFrom from "../components/EditForm.vue";
+import DetailUser from "../components/DetailUser.vue";
 
 Vue.use(VueRouter);
 
@@ -20,11 +22,21 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
-  // {
-  //   path: "/daftarpengguna",
-  //   name: "daftarpengguna",
-  //   component: DaftarPengguna,
-  // },
+  {
+    path: "/fromadd",
+    name: "fromadd",
+    component: FromAdd,
+  },
+  {
+    path: "/editFrom/:id",
+    name: "editFrom",
+    component: EditFrom,
+  },
+  {
+    path: "/detailUser/:id",
+    name: "detailUser",
+    component: DetailUser,
+  },
 ];
 
 const router = new VueRouter({
