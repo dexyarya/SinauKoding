@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <b-card class="mb-2 p-3">
         <p class="h4">Detail User</p>
-        <div class="container">
+        <div class="container mb-5">
             <b-row align-h="center">
                 <b-col cols="4">Name</b-col>
                 <b-col cols="4">:{{user.name}}</b-col>
@@ -23,6 +23,10 @@
                 <b-col cols="4">:{{user.status}}</b-col>
             </b-row>
         </div>
+
+         <router-link :to="{name:'home'}" class="mt-5">
+            <b-button variant="danger"> Back</b-button>
+        </router-link>
     </b-card>
   </div>
 </template>
